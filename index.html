@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+        content="Animal Sound Recognition using FFT and Machine Learning">
+
+    <title>Animal Sound Recognition | FFT</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVIGATION BAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🐾 AnimalSound
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#analyzer">Analyzer</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#applications">Applications</a>
+        </nav>
+
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-title">
+                SIGNALS & SYSTEMS PROJECT
+            </p>
+
+            <h1>
+                Animal Sound
+                <span>Recognition</span>
+                Using FFT
+            </h1>
+
+            <p class="hero-description">
+                Analyze animal sounds as digital signals, convert them
+                from the time domain to the frequency domain using
+                Fast Fourier Transform, and identify important
+                frequency characteristics.
+            </p>
+
+            <a href="#analyzer" class="start-button">
+                🎵 Analyze Sound
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= PROJECT INTRODUCTION ================= -->
+
+    <section class="section">
+
+        <div class="section-title">
+
+            <p>ABOUT THE PROJECT</p>
+
+            <h2>
+                Understanding Animal Sounds as Signals
+            </h2>
+
+        </div>
+
+        <div class="intro-grid">
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    📡
+                </div>
+
+                <h3>Signal Processing</h3>
+
+                <p>
+                    Animal sounds are real-world signals. We represent
+                    them digitally and analyze their amplitude and
+                    frequency characteristics.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    📊
+                </div>
+
+                <h3>FFT Analysis</h3>
+
+                <p>
+                    Fast Fourier Transform converts the sound from
+                    the time domain into the frequency domain so that
+                    its frequency components can be studied.
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="card-icon">
+                    🤖
+                </div>
+
+                <h3>Recognition</h3>
+
+                <p>
+                    Frequency and audio features can be used to
+                    distinguish different types of animal sounds.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ANALYZER ================= -->
+
+    <section id="analyzer" class="analyzer-section">
+
+        <div class="section-title">
+
+            <p>LIVE ANALYZER</p>
+
+            <h2>
+                Analyze an Animal Sound
+            </h2>
+
+            <p class="section-description">
+                Upload an audio file and explore its waveform,
+                frequency spectrum and dominant frequency.
+            </p>
+
+        </div>
+
+
+        <!-- UPLOAD BOX -->
+
+        <div class="upload-container">
+
+            <div class="upload-box">
+
+                <div class="upload-icon">
+                    🎵
+                </div>
+
+                <h3>
+                    Upload Animal Sound
+                </h3>
+
+                <p>
+                    Supported formats: WAV, MP3, OGG, FLAC
+                </p>
+
+                <label for="audioUpload" class="upload-button">
+                    Choose Audio File
+                </label>
+
+                <input
+                    type="file"
+                    id="audioUpload"
+                    accept="audio/*"
+                    hidden
+                >
+
+                <p id="fileName" class="file-name">
+                    No file selected
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- AUDIO PLAYER -->
+
+        <div id="audioSection" class="result-container hidden">
+
+            <h3>🎧 Uploaded Audio</h3>
+
+            <audio
+                id="audioPlayer"
+                controls>
+            </audio>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div id="resultsSection" class="results hidden">
+
+            <!-- TIME DOMAIN -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <p class="chart-label">
+                            TIME DOMAIN
+                        </p>
+
+                        <h3>
+                            Sound Waveform
+                        </h3>
+
+                    </div>
+
+                    <span class="chart-number">
+                        01
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="waveformCanvas"></canvas>
+
+                </div>
+
+                <p class="chart-description">
+                    The waveform shows how the amplitude of the
+                    animal sound changes with time.
+                </p>
+
+            </div>
+
+
+            <!-- FREQUENCY DOMAIN -->
+
+            <div class="chart-card">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <p class="chart-label">
+                            FREQUENCY DOMAIN
+                        </p>
+
+                        <h3>
+                            FFT Frequency Spectrum
+                        </h3>
+
+                    </div>
+
+                    <span class="chart-number">
+                        02
+                    </span>
+
+                </div>
+
+                <div class="chart-container">
+
+                    <canvas id="fftCanvas"></canvas>
+
+                </div>
+
+                <p class="chart-description">
+                    FFT converts the signal into the frequency
+                    domain and shows the frequency components
+                    present in the sound.
+                </p>
+
+            </div>
+
+
+            <!-- ANALYSIS RESULTS -->
+
+            <div class="analysis-results">
+
+                <div class="result-card">
+
+                    <span class="result-icon">
+                        🐾
+                    </span>
+
+                    <p>
+                        Predicted Animal
+                    </p>
+
+                    <h2 id="animalResult">
+                        —
+                    </h2>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span class="result-icon">
+                        📡
+                    </span>
+
+                    <p>
+                        Dominant Frequency
+                    </p>
+
+                    <h2 id="frequencyResult">
+                        —
+                    </h2>
+
+                    <span>Hz</span>
+
+                </div>
+
+
+                <div class="result-card">
+
+                    <span class="result-icon">
+                        🎯
+                    </span>
+
+                    <p>
+                        Confidence
+                    </p>
+
+                    <h2 id="confidenceResult">
+                        —
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROBABILITY -->
+
+            <div class="probability-card">
+
+                <div class="chart-header">
+
+                    <div>
+
+                        <p class="chart-label">
+                            CLASSIFICATION
+                        </p>
+
+                        <h3>
+                            Animal Probability
+                        </h3>
+
+                    </div>
+
+                </div>
+
+                <div id="probabilityBars">
+
+                    <!-- JavaScript will add bars here -->
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section id="how-it-works" class="section">
+
+        <div class="section-title">
+
+            <p>METHODOLOGY</p>
+
+            <h2>
+                How Does It Work?
+            </h2>
+
+        </div>
+
+
+        <div class="process">
+
+            <div class="process-step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>
+                    Upload Sound
+                </h3>
+
+                <p>
+                    The user uploads an animal sound recording.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>
+                    Signal Processing
+                </h3>
+
+                <p>
+                    The audio is converted into a digital signal.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>
+                    FFT Analysis
+                </h3>
+
+                <p>
+                    FFT converts the signal from time domain to
+                    frequency domain.
+                </p>
+
+            </div>
+
+
+            <div class="process-line"></div>
+
+
+            <div class="process-step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <h3>
+                    Recognition
+                </h3>
+
+                <p>
+                    Frequency characteristics are analyzed to
+                    identify the animal sound.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SIGNAL CONCEPT ================= -->
+
+    <section class="concept-section">
+
+        <div class="concept-content">
+
+            <p class="small-title">
+                SIGNALS & SYSTEMS CONCEPT
+            </p>
+
+            <h2>
+                Time Domain → Frequency Domain
+            </h2>
+
+            <p>
+                A sound signal can be represented in two important
+                ways. The time-domain representation shows how the
+                signal amplitude changes with time, while the
+                frequency-domain representation shows which
+                frequencies are present in the signal.
+            </p>
+
+            <div class="conversion">
+
+                <div class="conversion-box">
+                    <strong>Time Domain</strong>
+                    <span>Amplitude vs Time</span>
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+                <div class="conversion-box">
+                    <strong>FFT</strong>
+                    <span>Fourier Transform</span>
+                </div>
+
+                <div class="arrow">
+                    →
+                </div>
+
+                <div class="conversion-box">
+                    <strong>Frequency Domain</strong>
+                    <span>Magnitude vs Frequency</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= APPLICATIONS ================= -->
+
+    <section id="applications" class="section">
+
+        <div class="section-title">
+
+            <p>REAL WORLD USE</p>
+
+            <h2>
+                Applications
+            </h2>
+
+        </div>
+
+
+        <div class="application-grid">
+
+            <div class="application-card">
+
+                <span>🌳</span>
+
+                <h3>
+                    Wildlife Monitoring
+                </h3>
+
+                <p>
+                    Acoustic signals can help monitor animals
+                    in forests and natural habitats.
+                </p>
+
+            </div>
+
+
+            <div class="application-card">
+
+                <span>🔬</span>
+
+                <h3>
+                    Bioacoustics
+                </h3>
+
+                <p>
+                    Researchers can study animal communication
+                    and vocal behavior.
+                </p>
+
+            </div>
+
+
+            <div class="application-card">
+
+                <span>📢</span>
+
+                <h3>
+                    Sound Detection
+                </h3>
+
+                <p>
+                    Specific animal calls can be detected
+                    automatically from recordings.
+                </p>
+
+            </div>
+
+
+            <div class="application-card">
+
+                <span>🤖</span>
+
+                <h3>
+                    Machine Learning
+                </h3>
+
+                <p>
+                    Audio features can be combined with
+                    machine learning for sound classification.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CONCLUSION ================= -->
+
+    <section class="conclusion">
+
+        <div>
+
+            <p class="small-title">
+                PROJECT CONCLUSION
+            </p>
+
+            <h2>
+                Every Sound Is a Signal.
+            </h2>
+
+            <p>
+                By using Fourier Transform, we can study the hidden
+                frequency components inside an animal sound and
+                understand it as a mathematical signal.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+
+                <h3>
+                    🐾 AnimalSound
+                </h3>
+
+                <p>
+                    Animal Sound Recognition Using FFT
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <p>
+                    Signals & Systems Project
+                </p>
+
+                <p>
+                    Made for Academic Demonstration
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+
+            © 2026 Animal Sound Recognition Project
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
